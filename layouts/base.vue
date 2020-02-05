@@ -14,10 +14,15 @@
 </template>
 
 <style lang="scss">
-html,
 body {
   margin: 0;
-  background-color: #fafafa;
+  background-image: url('~assets/images/textures/wave.svg');
+  background-repeat: repeat;
+  background-size: 120px;
+
+  a {
+    text-decoration: none;
+  }
 
   * {
     box-sizing: border-box;
@@ -37,7 +42,7 @@ body {
   }
 
   main {
-    padding: 80px 0;
+    padding: 20px 0 40px 0;
   }
 }
 
