@@ -5,8 +5,9 @@
         .waves__dark
         .waves__light
       .container__header__texts.inner-margin
-        h1.container__title フロぶらりー
-          img(src="~/assets/images/icons/hot_tub.svg")
+        nuxt-link(to="/")
+          h1.container__title フロぶらりー
+            img(src="~/assets/images/icons/hot_tub.svg")
         h3.container__subtitle おふろを探そう。
     main
       nuxt
@@ -22,10 +23,21 @@ body {
     box-sizing: border-box;
     font-family: 'Roboto', 'Noto Sans JP', sans-serif;
     margin: 0;
+    letter-spacing: 1px;
+  }
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
   }
 
   main {
-    padding: 40px 20px;
+    padding: 80px 0;
   }
 }
 
@@ -80,6 +92,7 @@ body {
     font-size: 16px;
     font-weight: 500;
     line-height: 100px;
+    color: $text-black;
 
     img {
       display: inline-block;
