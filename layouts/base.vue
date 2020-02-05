@@ -8,7 +8,8 @@
         h1.container__title フロぶらりー
           img(src="~/assets/images/icons/hot_tub.svg")
         h3.container__subtitle おふろを探そう。
-    nuxt
+    main
+      nuxt
 </template>
 
 <style lang="scss">
@@ -21,6 +22,10 @@ body {
     box-sizing: border-box;
     font-family: 'Roboto', 'Noto Sans JP', sans-serif;
     margin: 0;
+  }
+
+  main {
+    padding: 40px 20px;
   }
 }
 
