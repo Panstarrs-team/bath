@@ -3,39 +3,29 @@
     section.recommend-section
       Heading(:subTitle="'編集室ピックアップ！'") おすすめの銭湯
       .recommend-section__reports.inner-margin
-        //- Card(v-for="(post, key) in recommendedPosts.slice(0, 6)" :key="key" :post="post").recommend-section__report
-      span {{ recommendedPosts }}
+        Card(v-for="(post, key) in recommendedPosts.slice(0, 6)" :key="key" :post="post").recommend-section__report
     section.mood-section
       Heading(:subTitle="'壁の絵、ケロリン、風情ある銭湯も。'") 雰囲気でたのしむ
       .mood-section__reports.inner-margin
-        //- Card(v-for="(post, key) in nostalgicPosts.slice(0, 2)" :key="key" :thumbnailHeight="240" :post="post")
+        Card(v-for="(post, key) in nostalgicPosts.slice(0, 2)" :key="key" :thumbnailHeight="240" :post="post")
 </template>
 
 <script>
 import firebase from 'firebase/app'
 import Heading from '~/components/Heading'
-// import Card from '~/components/Card'
-
-// import recommendedPosts from '~/data/recommendedPosts.json'
-// import nostalgicPosts from '~/data/nostalgicPosts.json'
+import Card from '~/components/Card'
 
 import 'firebase/firestore'
 
 export default {
   layout: 'base',
   components: {
-    Heading
-    // Card
-  },
-  data() {
-    // return {
-    //   recommendedPosts,
-    //   nostalgicPosts
-    // }
+    Heading,
+    Card
   },
 
   async asyncData() {
-    const testArray = []
+    const postList = []
     const db = await firebase
       .firestore()
       .collection('versions')
@@ -53,16 +43,15 @@ export default {
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach((doc, i) => {
-          testArray.push(doc.data())
-          console.log(doc.data())
+          postList.push(doc.data())
         })
       })
-      .catch(function(error) {
-        console.log('Error getting documents: ', error)
+      .catch((error) => {
+        throw new Error(error)
       })
     return {
-      recommendedPosts: testArray,
-      nostalgicPosts: testArray
+      recommendedPosts: postList,
+      nostalgicPosts: postList
     }
   }
   // mounted() {

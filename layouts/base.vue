@@ -27,8 +27,9 @@ body {
   * {
     box-sizing: border-box;
     font-family: 'Roboto', 'Noto Sans JP', sans-serif;
-    margin: 0;
     letter-spacing: 1px;
+    vertical-align: top;
+    margin: 0;
   }
 
   p,

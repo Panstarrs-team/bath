@@ -30,6 +30,7 @@ export default {
   overflow: hidden;
   transform: translateY(0px);
   transition: 0.1s ease;
+  height: 100%;
 
   &:hover {
     transform: translateY(-5px);

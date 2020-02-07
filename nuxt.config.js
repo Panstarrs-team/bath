@@ -69,5 +69,15 @@ module.exports = {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  env: {
+    FIRE_API_KEY: process.env.FIRE_apiKey,
+    FIRE_AUTH_DOMAIN: process.env.FIREauthDomain,
+    FIRE_DATABASE_URL: process.env.FIREdatabaseURL,
+    FIRE_PROJECT_ID: process.env.FIREprojectId,
+    FIRE_STORAGE_BUCKET: process.env.FIREstorageBucket,
+    FIRE_MESSAGING_SENDER_ID: process.env.FIREmessagingSenderId,
+    FIRE_APP_ID: process.env.FIREappId,
+    FIRE_MEASUREMENT_ID: process.env.FIREmeasurementId
   }
 }
