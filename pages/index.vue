@@ -107,8 +107,12 @@ export default {
 
   &__report {
     @media screen and (max-width: $size-mobile) {
-      :nth-child(1) {
-        background-color: red;
+      grid-template-columns: repeat(1, 1fr);
+
+      &:nth-of-type(4),
+      &:nth-of-type(5),
+      &:nth-of-type(6) {
+        display: none;
       }
     }
   }
