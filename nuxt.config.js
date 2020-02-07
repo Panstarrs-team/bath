@@ -34,7 +34,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ['~/plugins/firebase.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -53,7 +53,6 @@ module.exports = {
     '@nuxtjs/dotenv',
     '@nuxtjs/style-resources'
   ],
-
   styleResources: {
     scss: ['@/assets/global/_variables.scss', '@/assets/global/_general.scss']
   },

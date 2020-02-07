@@ -1,10 +1,10 @@
 <template lang="pug">
-  a(:href="post.link")
+  a(href="https://google.com")
     .card
-      img(:src="post.imageUrl" :style="`height: ${thumbnailHeight}px`").card__img
+      img(:src="post.thumbnail" :style="`height: ${thumbnailHeight}px`").card__img
       .card__text
-        h3.card__title {{post.name}} 
-        p.card__desc {{post.desc}} 
+        h3.card__title {{post.title}} 
+        p.card__desc {{post.description}} 
 </template>
 
 <script>
