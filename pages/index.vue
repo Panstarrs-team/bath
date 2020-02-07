@@ -35,19 +35,13 @@ export default {
   },
 
   async asyncData() {
-    const returnPosts =  (recommended, nostalgic) => {
-      return {
-        recommendedPosts: recommended,
-        nostalgicPosts: nostalgic
-      }
-    }
     const testArray = []
     const db = await firebase
       .firestore()
       .collection('versions')
       .doc('1')
       .collection('article')
-    return db
+    await db
       .where('isPublished', '==', true)
       .where(
         'publishedAt',
@@ -60,13 +54,16 @@ export default {
       .then(function(querySnapshot) {
         querySnapshot.forEach((doc, i) => {
           testArray.push(doc.data())
-
-          returnPosts(doc.data(), doc.data())
+          console.log(doc.data())
         })
       })
       .catch(function(error) {
         console.log('Error getting documents: ', error)
       })
+    return {
+      recommendedPosts: testArray,
+      nostalgicPosts: testArray
+    }
   }
   // mounted() {
   //   console.log(this.poo)
