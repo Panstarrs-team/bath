@@ -16,6 +16,7 @@ import Heading from '~/components/Heading'
 import Card from '~/components/Card'
 
 import 'firebase/firestore'
+import 'firebase/auth'
 
 export default {
   layout: 'base',
@@ -23,56 +24,49 @@ export default {
     Heading,
     Card
   },
-
   async asyncData() {
-    const postList = []
-    const db = await firebase
+    const db = firebase
       .firestore()
       .collection('versions')
       .doc('1')
       .collection('article')
-    await db
-      .where('isPublished', '==', true)
-      .where(
-        'publishedAt',
-        '<=',
-        firebase.firestore.Timestamp.fromDate(new Date())
-      )
-      .limit(3)
-      .orderBy('publishedAt')
-      .get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach((doc, i) => {
-          postList.push(doc.data())
+    const postList = []
+    await firebase
+      .auth()
+      .signInAnonymously()
+      .catch(function(error) {
+        // Handle Errors here.
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log('auth', errorCode, errorMessage)
+      })
+    await firebase.auth().onAuthStateChanged(function() {
+      console.log('uiofwqjidjiwqojiofnmkxa')
+      db.where('isPublished', '==', true)
+        .where(
+          'publishedAt',
+          '<=',
+          firebase.firestore.Timestamp.fromDate(new Date())
+        )
+        .limit(3)
+        .orderBy('publishedAt')
+        .get()
+        .then(function(querySnapshot) {
+          querySnapshot.forEach((doc, i) => {
+            console.log(doc.data())
+            postList.push(doc.data())
+          })
         })
-      })
-      .catch((error) => {
-        throw new Error(error)
-      })
+        .catch((error) => {
+          throw new Error(error)
+        })
+    })
+
     return {
       recommendedPosts: postList,
       nostalgicPosts: postList
     }
   }
-  // mounted() {
-  //   console.log(this.poo)
-  //   const poo = async () => {
-  //     const db = firebase
-  //       .firestore()
-  //       .collection('versions')
-  //       .doc('1')
-  //       .collection('article')
-  //     const snapshot = await db
-  //       .where('isPublished', '==', true)
-  //       .where('publishedAt', '<=', firebase.firestore.Timestamp.now())
-  //       .limit(3)
-  //       .orderBy('publishedAt')
-  //       .get()
-  //     console.log(snapshot.size)
-  //     console.log(this.recommendedPosts)
-  //   }
-  //   poo()
-  // }
 }
 </script>
 
