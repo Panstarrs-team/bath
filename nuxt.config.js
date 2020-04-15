@@ -56,11 +56,14 @@ module.exports = {
   styleResources: {
     scss: ['@/assets/global/_variables.scss', '@/assets/global/_general.scss']
   },
+  serverMiddleware: [{ path: '~/api/', handler: '~/api/' }],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: process.env.BASE_URL
+  },
   /*
    ** Build configuration
    */

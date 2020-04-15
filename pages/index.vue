@@ -1,22 +1,22 @@
 <template lang="pug">
   .top
     section.recommend-section
-      Heading(:subTitle="'編集室ピックアップ！'") おすすめの銭湯
+      Heading(:subTitle="'全部素敵だけどね。'") おすすめの銭湯
       .recommend-section__reports.inner-margin
-        Card(v-for="(post, key) in recommendedPosts.slice(0, 6)" :key="key" :post="post").recommend-section__report
+        Card(v-for="(post, key) in recommendedPosts.slice(0, 6)" :key="key" :post="post" :thumbnailHeight='160').recommend-section__report
     section.mood-section
       Heading(:subTitle="'壁の絵、ケロリン、風情ある銭湯も。'") 雰囲気でたのしむ
       .mood-section__reports.inner-margin
-        Card(v-for="(post, key) in nostalgicPosts.slice(0, 2)" :key="key" :thumbnailHeight="240" :post="post")
+        //- Card(v-for="(post, key) in nostalgicPosts.slice(0, 2)" :key="key" :thumbnailHeight="240" :post="post")
 </template>
 
 <script>
-import firebase from 'firebase/app'
+// import firebase from 'firebase/app'
 import Heading from '~/components/Heading'
 import Card from '~/components/Card'
 
-import 'firebase/firestore'
-import 'firebase/auth'
+// import 'firebase/firestore'
+// import 'firebase/auth'
 
 export default {
   layout: 'base',
@@ -24,48 +24,14 @@ export default {
     Heading,
     Card
   },
-  async asyncData() {
-    const db = firebase
-      .firestore()
-      .collection('versions')
-      .doc('1')
-      .collection('article')
-    const postList = []
-    await firebase
-      .auth()
-      .signInAnonymously()
-      .catch(function(error) {
-        // Handle Errors here.
-        const errorCode = error.code
-        const errorMessage = error.message
-        console.log('auth', errorCode, errorMessage)
-      })
-    await firebase.auth().onAuthStateChanged(function() {
-      console.log('uiofwqjidjiwqojiofnmkxa')
-      db.where('isPublished', '==', true)
-        .where(
-          'publishedAt',
-          '<=',
-          firebase.firestore.Timestamp.fromDate(new Date())
-        )
-        .limit(3)
-        .orderBy('publishedAt')
-        .get()
-        .then(function(querySnapshot) {
-          querySnapshot.forEach((doc, i) => {
-            console.log(doc.data())
-            postList.push(doc.data())
-          })
-        })
-        .catch((error) => {
-          throw new Error(error)
-        })
+  async asyncData({ $axios }) {
+    let recommended
+
+    await $axios.get('/api/recommended').then((posts) => {
+      recommended = posts.data
     })
 
-    return {
-      recommendedPosts: postList,
-      nostalgicPosts: postList
-    }
+    return { recommendedPosts: recommended }
   }
 }
 </script>
