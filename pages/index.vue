@@ -11,12 +11,8 @@
 </template>
 
 <script>
-// import firebase from 'firebase/app'
 import Heading from '~/components/Heading'
 import Card from '~/components/Card'
-
-// import 'firebase/firestore'
-// import 'firebase/auth'
 
 export default {
   layout: 'base',
@@ -27,9 +23,12 @@ export default {
   async asyncData({ $axios }) {
     let recommended
 
-    await $axios.get('/api/recommended').then((posts) => {
-      recommended = posts.data
-    })
+    await $axios
+      .get('/api/recommended')
+      .then((posts) => {
+        recommended = posts.data
+      })
+      .catch((err) => console.error(err))
 
     return { recommendedPosts: recommended }
   }

@@ -3,9 +3,9 @@ const bodyParser = require('body-parser')
 const app = express()
 require('dotenv').config()
 
-const adminCredentials = require('../.google.json')
+// const adminCredentials = require('../.google.json')
 
-const admin = require('firebase-admin')
+// const admin = require('firebase-admin')
 const firebase = require('firebase/app')
 require('firebase/firestore')
 require('firebase/auth')
