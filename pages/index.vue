@@ -3,7 +3,7 @@
     section.recommend-section
       Heading(:subTitle="'全部素敵だけどね。'") おすすめの銭湯
       .recommend-section__reports.inner-margin
-        Card(v-for="(post, key) in recommendedPosts.slice(0, 6)" :key="key" :post="post" :thumbnailHeight='160').recommend-section__report
+        Card(v-for="(post, key) in parsedRecommendedPosts.slice(0, 6)" :key="key" :post="post" :thumbnailHeight='160').recommend-section__report
     section.mood-section
       Heading(:subTitle="'壁の絵、ケロリン、風情ある銭湯も。'") 雰囲気でたのしむ
       .mood-section__reports.inner-margin
@@ -31,6 +31,11 @@ export default {
       .catch((err) => console.error(err))
 
     return { recommendedPosts: recommended }
+  },
+  computed: {
+    parsedRecommendedPosts() {
+      return Object.keys(this.recommendedPosts)
+    }
   }
 }
 </script>

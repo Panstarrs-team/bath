@@ -35,7 +35,7 @@ async function initFirebase() {
     .collection('versions')
     .doc('1')
     .collection('article')
-  const postList = []
+  let postList = {}
   await firebase
     .auth()
     .signInAnonymously()
@@ -45,7 +45,7 @@ async function initFirebase() {
       console.error('auth', errorCode, errorMessage)
     })
 
-  await firebase.auth().onAuthStateChanged(function() {
+   firebase.auth().onAuthStateChanged(function() {
     db.where('isPublished', '==', true)
       .where(
         'publishedAt',
@@ -57,14 +57,15 @@ async function initFirebase() {
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach((doc, i) => {
-          postList.push(doc.data())
+          let pageId = doc._document.proto.name.split("/");
+          pageId = pageId[pageId.length - 1]
+          postList[pageId] = doc.data();
         })
       })
       .catch((error) => {
         throw new Error(error)
       })
   })
-
   recommendedPosts = postList
   nostalgicPosts = postList
 }
