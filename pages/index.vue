@@ -24,7 +24,7 @@ export default {
     let recommended
 
     await $axios
-      .get('/api/recommended')
+      .get('/recommended')
       .then((posts) => {
         recommended = posts.data
       })
@@ -34,8 +34,19 @@ export default {
   },
   computed: {
     parsedRecommendedPosts() {
-      return Object.keys(this.recommendedPosts)
+      const parsedArray = []
+
+      Object.keys(this.recommendedPosts).forEach((item) => {
+        const keyIncludedData = this.recommendedPosts[item]
+        keyIncludedData.key = item
+        parsedArray.push(keyIncludedData)
+      })
+
+      return parsedArray
     }
+  },
+  mounted() {
+    console.log(this.parsedRecommendedPosts)
   }
 }
 </script>

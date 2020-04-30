@@ -10,8 +10,7 @@ const firebase = require('firebase/app')
 require('firebase/firestore')
 require('firebase/auth')
 
-let recommendedPosts
-let nostalgicPosts
+let posts
 
 const config = {
   apiKey: process.env.FIRE_API_KEY,
@@ -45,7 +44,7 @@ async function initFirebase() {
       console.error('auth', errorCode, errorMessage)
     })
 
-   firebase.auth().onAuthStateChanged(function() {
+  firebase.auth().onAuthStateChanged(function() {
     db.where('isPublished', '==', true)
       .where(
         'publishedAt',
@@ -57,17 +56,16 @@ async function initFirebase() {
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach((doc, i) => {
-          let pageId = doc._document.proto.name.split("/");
+          let pageId = doc._document.proto.name.split('/')
           pageId = pageId[pageId.length - 1]
-          postList[pageId] = doc.data();
+          postList[pageId] = doc.data()
         })
       })
       .catch((error) => {
         throw new Error(error)
       })
   })
-  recommendedPosts = postList
-  nostalgicPosts = postList
+  posts = postList
 }
 
 initFirebase()
@@ -79,11 +77,29 @@ app.get('/', function(req, res) {
 })
 
 app.get('/recommended', (req, res) => {
-  res.send(recommendedPosts)
+  res.send(posts)
 })
 
-app.get('/nostalgic', (req, res) => {
-  res.send(nostalgicPosts)
+app.get('/bath', async (req, res) => {
+  let bathInfo
+  const bathID = req.query.id
+  const bathSnapshot = await firebase
+    .firestore()
+    .collection('versions/1/article')
+    .doc(bathID)
+    .get()
+    .catch((err) => {
+      return err.code
+    })
+
+  if (typeof bathSnapshot === 'string') {
+    bathSnapshot === 'permission-denied'
+      ? res.redirect(req.path, 404)
+      : res.redirect(req.path, 500)
+  } else {
+    bathInfo = bathSnapshot.data()
+    res.send(bathInfo)
+  }
 })
 
 module.exports = {
