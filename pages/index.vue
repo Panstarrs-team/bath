@@ -3,7 +3,7 @@
     section.recommend-section
       Heading(:subTitle="'全部素敵だけどね。'") おすすめの銭湯
       .recommend-section__reports.inner-margin
-        Card(v-for="(post, key) in recommendedPosts.slice(0, 6)" :key="key" :post="post" :thumbnailHeight='160').recommend-section__report
+        Card(v-for="(post, key) in parsedRecommendedPosts.slice(0, 6)" :key="key" :post="post" :thumbnailHeight='160').recommend-section__report
     section.mood-section
       Heading(:subTitle="'壁の絵、ケロリン、風情ある銭湯も。'") 雰囲気でたのしむ
       .mood-section__reports.inner-margin
@@ -24,13 +24,29 @@ export default {
     let recommended
 
     await $axios
-      .get('/api/recommended')
+      .get('/recommended')
       .then((posts) => {
         recommended = posts.data
       })
       .catch((err) => console.error(err))
 
     return { recommendedPosts: recommended }
+  },
+  computed: {
+    parsedRecommendedPosts() {
+      const parsedArray = []
+
+      Object.keys(this.recommendedPosts).forEach((item) => {
+        const keyIncludedData = this.recommendedPosts[item]
+        keyIncludedData.key = item
+        parsedArray.push(keyIncludedData)
+      })
+
+      return parsedArray
+    }
+  },
+  mounted() {
+    console.log(this.parsedRecommendedPosts)
   }
 }
 </script>

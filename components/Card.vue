@@ -1,5 +1,5 @@
 <template lang="pug">
-  a(href="https://google.com")
+  nuxt-link(:to="'/bath/' + post.key")
     .card
       img(:src="post.thumbnail" :style="`height: ${thumbnailHeight}px`").card__img
       .card__text
